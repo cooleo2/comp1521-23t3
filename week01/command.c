@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[]) {
     int sum = 0;
-    for (int i = 0; i < argc; i++) {
+    for (int i = 1; i < argc; i++) {
         printf("Argument: %s\n", argv[i]);
         sum += atoi(argv[i]);
     }
