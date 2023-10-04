@@ -93,33 +93,56 @@ main__epi:					## The only things that should be in the epilogue are pops, end, 
 fib:
 	# Subset:   1
 	#
-	# Args:     void
+	# Args:     $a0: n
 	#
 	# Returns:
 	#    - $v0: int
 	#
-	# Frame:    [...]
+	# Frame:    [$ra, $s0, $s1]
 	# Uses:     [...]
 	# Clobbers: [...]
 	#
 	# Locals:
-	#   - ...
+	#   - $s1: result
 	#
 	# Structure:
 	#   fib
 	#   -> [prologue]
 	#       -> body
+	#		-> n_lt2
 	#   -> [epilogue]
 
 fib__prologue:
+	begin
+	push	$ra
+	push	$s0
+	push	$s1
 
 fib__body:
+	move	$s0,	$a0
 
+fib_n_lt2_cond:
+	bge	$s0,	2,	fib_n_lt2_false	# if (n >= 2) goto fib_n_lt2_false;
+	move	$v0,	$s0 #    return n;
+	j 	fib__epilogue;
+fib_n_lt2_false:
+    	sub	$a0,	$s0,	2 # int result = fib(n - 2);
+	jal	fib
 
+	move	$s1,	$v0		# save the result
+
+	sub	$a0,	$s0,	1 # fib(n - 1);
+	jal	fib
+
+	add	$v0,	$s1,	$v0	# return fib(n - 1) + fib(n - 2)
 	
 
 fib__epilogue:
-	
+	pop	$s1
+	pop	$s0
+	pop	$ra
+	end
+
 	jr	$ra
 
 

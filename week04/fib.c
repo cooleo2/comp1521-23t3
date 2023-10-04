@@ -3,10 +3,12 @@
 #include <stdio.h>
 
 int fib(int n) {
-    if (n < 2) {
-    	return n;
-    }
-    return fib(n - 1) + fib(n - 2);
+fib_n_lt2_cond:
+    if (n >= 2) goto fib_n_lt2_false;
+    return n;
+fib_n_lt2_false:
+    int result = fib(n - 2);
+    return fib(n - 1) + result;
 }
 
 int main(void) {
