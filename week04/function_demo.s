@@ -10,12 +10,12 @@ main__prologue:
 
 main__body:
 
-	li	$t0, 25				# Load 25 into $t0
+	li	$s0, 	25				# Load 25 into $t0
 
 	jal	ten
 
 
-	add	$a0, $v0, $t0			# $t0 [25] + ten() [10]
+	add	$a0, $v0, $s0			# $t0 [25] + ten() [10]
 	li	$v0, 1				# syscall 1: print_int
 						## note that we set the syscall number after the function call
 						## this is crucial, as the return value of the function call
@@ -44,17 +44,21 @@ ten:
 ten__prologue:
 	begin					
 	push	$ra
-
+	push	$s0
+	push	$s1
+	
 
 ten__body:
-	li	$t0, 10
+	li	$s0, 	10
+	li	$s1, 	24
 
 	jal 	random_number
 
 	li	$v0,	10	# return 10
 
 ten__epilogue:
-
+	pop	$s1
+	pop	$s0
 	pop	$ra
 	end
 	jr	$ra
