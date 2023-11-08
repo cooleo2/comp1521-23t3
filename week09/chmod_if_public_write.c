@@ -61,7 +61,7 @@ void chmod_if_needed(char *pathname) {
 
     // Update mode to file
     if (chmod(pathname, new_mode) != 0) {
-        perror("chmod");
+        perror(pathname);
         // exit(1);
         return;
     }
